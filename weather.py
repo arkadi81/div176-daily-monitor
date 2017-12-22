@@ -7,6 +7,7 @@ import inspect
 import requests #required to shoot get reqs to webpages to download html content
 from bs4 import BeautifulSoup #needed to parse the stuff we get from requests
 import pandas as pd # data analysis tools
+from pandas import Series,DataFrame
 import re
 
 # included from https://stackoverflow.com/questions/6810999/how-to-determine-file-function-and-line-number/6811020
@@ -30,24 +31,39 @@ def weather_gc_ca_scraper():
 	page = requests.get(url)
 	soup = BeautifulSoup(page.content,"html.parser")
 
-	temps = soup.find_all(class_="high wxo-metric-hide")[:6]
+	headers = soup.find_all(class_="div-row div-row1 div-row-head")
+	temps_dirty = soup.find_all(class_="high wxo-metric-hide")[:7]
+	week_days = [h.find_all("strong")[0].get_text() for h in headers]
+	dates = [h.find_all("br")[0].get_text() for h in headers]
+
+	num_dates = [re.search("(\d+)",d).group(0) for d in dates] # extract numerical date
+	months = [re.search("(\d+)\xa0(\w{3})",d).group(2) for d in dates] # extract month
+	temps = [int(re.search("\d+",t.get_text()).group(0)) for t in temps_dirty]
+
+	weather_data = {"week_day": week_days, "month":months, "date": num_dates, "temp": temps}
+
+	print("Current 7 day forcast in Victoria, BC, based on weather.gc.ca")
+
+	DF_obj = DataFrame([week_days,months,num_dates,temps], index=["week day","month","date","temp(c)"])
+	print(DF_obj)
+
+	print("sample output: Temperature for tomorrow -\n {}".format(DF_obj[1]))
+
+
 	# print(type(temps))
 	# print(temps)
-	headers = soup.find_all(class_="div-row div-row1 div-row-head")
 	# print(headers)
 	# print(headers[0])
 
 	# print(dir(headers))
-	week_days = [h.find_all("strong")[0].get_text() for h in headers]
-	dates = [h.find_all("br")[0].get_text() for h in headers]
+	
+	
 
 	#-------------
-	print("Current 6 day forcast in Victoria, BC, based on weather.gc.ca")
-	print(week_days)
+	
+	# print(week_days)
 	# print(dates)
-	print([re.search("(\d+)",d).group(0) for d in dates]) # extract numerical date
-	print([re.search("(\d+)\xa0(\w{3})",d).group(2) for d in dates]) # extract month
-	print([int(re.search("\d+",t.get_text()).group(0)) for t in temps])
+	
 
 	# print(type(headers))
 	# print(headers)
