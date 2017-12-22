@@ -8,7 +8,7 @@ An interactive web application for the display of important information for brig
 The script scraps short term and long term weather info relevant to the Victoria area and displays it on the web page
 
 ## Usage
-- ```{engine='sh'}
+```shell
 $ python3 weather.py 
 ```
 will report week long weather to cli
