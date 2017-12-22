@@ -21,5 +21,5 @@ will report week long weather to cli
 
 ## Sources
 - Web scraping and visualization in python using beautiful soup and pandas: https://www.dataquest.io/blog/web-scraping-tutorial-python/
-- - Pandas info can be found in unit 2 of Lynda's "Python for Data Science Essential Training" at
+- Pandas info can be found in unit 2 of Lynda's "Python for Data Science Essential Training" at
 https://www.lynda.com/Python-tutorials/Filter-select-data/520233/601939-4.html?autoplay=true
