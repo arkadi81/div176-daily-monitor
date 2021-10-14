@@ -1,7 +1,5 @@
 # SJA DIVISION 176 DAILY MONITOR
 
-# this is a sample change 20211014 3
-
 An interactive web application for the display of important information for brigade members of Saint John Ambulance's division 176 - Victoria, BC
 
 ## Current Capabilities
